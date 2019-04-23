@@ -19,8 +19,8 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.regex("(?!/error).+")).paths(PathSelectors.regex("(?!/selfDoc).+"))
+                .apis(RequestHandlerSelectors.basePackage("com.loopme.ads.http"))
+                .paths(PathSelectors.ant("/api/v1/*"))
                 .build()
                 .apiInfo(metaData());
     }
