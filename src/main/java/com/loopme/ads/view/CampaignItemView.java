@@ -13,11 +13,11 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Data
-public class CampaignView {
+public class CampaignItemView {
     private Integer id;
     private String name;
     private Status status;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private List<AdvertisementView> advertisements;
+    private List<Integer> advertisements;
 }

@@ -4,46 +4,47 @@ import com.loopme.ads.dao.BaseDBOperation;
 import com.loopme.ads.error.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 @Slf4j
-public class CampaignInsert extends BaseDBOperation {
+public class CampaignUpdate extends BaseDBOperation {
 
-    private static final String QUERY_INSERT_CAMPAIGN = "" +
-            "INSERT INTO campaigns (name, status, start_date, end_date)\n" +
-            "VALUES (?, ?, ?, ?)";
+    private static final String QUERY_UPDATE_CAMPAIGN = "" +
+            "UPDATE campaigns SET name = ?, status = ?, start_date = ?, end_date = ?\n" +
+            "WHERE id = ?";
+
+    private static final String QUERY_DELETE_CAMPAIGNS_ADS = "" +
+            "DELETE FROM CampaignsAds WHERE campaignID = ?";
 
     private static final String QUERY_INSERT_CAMPAIGNS_ADS = "" +
             "INSERT INTO CampaignsAds(campaignID, adsID)\n" +
             "VALUES (?, ?)";
 
-
-    private int insertCampaign(String name, int status, LocalDateTime startDate, LocalDateTime endDate) {
-        log.debug("insert campaign, name {}", name);
-
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-
-        getJdbcTemplate().update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(QUERY_INSERT_CAMPAIGN, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, name);
-            ps.setInt(2, status);
-            ps.setObject(3, startDate);
-            ps.setObject(4, endDate);
-            return ps;
-        }, keyHolder);
-
+    @Transactional
+    public int update(int id, String name, Integer status, LocalDateTime startDate, LocalDateTime endDate, List<Integer> adsIds) {
         try {
-            return keyHolder.getKey().intValue();
+            if (getJdbcTemplate().update(QUERY_UPDATE_CAMPAIGN, name, status, startDate, endDate, id) == 1) {
+                deleteRelations(id);
+                insertRelations(id, adsIds);
+                return 1;
+            }
+            return 0;
+        } catch (Exception e) {
+            log.error("An sql error occurred");
+            throw new ServiceException(e);
+        }
+    }
+
+    private void deleteRelations(int campaignId) {
+        try {
+            getJdbcTemplate().update(QUERY_DELETE_CAMPAIGNS_ADS, campaignId);
         } catch (Exception e) {
             log.error("An sql error occurred");
             throw new ServiceException(e);
@@ -68,12 +69,5 @@ public class CampaignInsert extends BaseDBOperation {
             log.error("An sql error occurred");
             throw new ServiceException(e);
         }
-    }
-
-    @Transactional
-    public int insert(String name, int status, LocalDateTime startDate, LocalDateTime endDate, List<Integer> adsList) {
-        int id = insertCampaign(name, status, startDate, endDate);
-        insertRelations(id, adsList);
-        return id;
     }
 }

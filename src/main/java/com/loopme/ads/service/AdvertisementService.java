@@ -21,7 +21,7 @@ public class AdvertisementService {
     private final AdvertisementUpdate advertisementUpdate;
 
     public Advertisement get(int id) {
-        return advertisementSelect.getOne(id);
+        return advertisementSelect.get(id);
     }
 
     public void delete(int id) {
@@ -30,8 +30,13 @@ public class AdvertisementService {
         }
     }
 
-    public int create(Advertisement advertisement) {
-        return advertisementInsert.insert(advertisement);
+    public int create(Advertisement ads) {
+        return advertisementInsert.insert(
+                ads.getName(),
+                ads.getStatus(),
+                ads.getPlatforms(),
+                ads.getAssetUrl()
+        );
     }
 
     public void update(Advertisement advertisement) {

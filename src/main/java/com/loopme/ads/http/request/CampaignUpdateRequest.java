@@ -1,6 +1,7 @@
 package com.loopme.ads.http.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.loopme.ads.constant.Status;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -16,8 +17,8 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Data
-@ApiModel(value = "CampaignCreateRequest", description = "Create campaign")
-public class CampaignCreateRequest {
+@ApiModel(value = "CampaignUpdateRequest", description = "Update campaign")
+public class CampaignUpdateRequest {
 
     @ApiModelProperty(value = "campaign name", required = true)
     @NotBlank
@@ -31,6 +32,10 @@ public class CampaignCreateRequest {
     @ApiModelProperty(value = "campaign end date", required = true)
     @NotNull
     private LocalDateTime endDate;
+
+    @ApiModelProperty(value = "campaign status", required = true)
+    @NotNull
+    private Status status;
 
     @ApiModelProperty(value = "advertisements related to campaign", required = true)
     @NotEmpty

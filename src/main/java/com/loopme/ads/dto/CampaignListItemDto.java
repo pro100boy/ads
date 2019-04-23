@@ -1,6 +1,5 @@
-package com.loopme.ads.view;
+package com.loopme.ads.dto;
 
-import com.loopme.ads.constant.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class CampaignListItemView {
+public class CampaignListItemDto {
     private Integer id;
     private String name;
-    private Status status;
-    private Integer adsCount;
+    private Integer status;
+    private Integer adsCnt;
 }

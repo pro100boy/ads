@@ -49,7 +49,7 @@ public class AdvertisementController {
     }
 
     @ApiOperation(value = "create advertisement", response = AdvertisementView.class)
-    @ApiResponse(code = 201, message = "Advertisement created successfully")
+    @ApiResponse(code = 201, message = "Advertisement was created successfully")
     @PostMapping(value = PATH, produces = APPLICATION_JSON_UTF8_VALUE, consumes = APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<AdvertisementView> create(@RequestBody @Valid AdvertisementCreateRequest request) {
         log.info("create advertisement with params {}", request);
@@ -64,7 +64,7 @@ public class AdvertisementController {
     @ApiOperation(value = "update specify advertisement", response = AdvertisementView.class)
     @PutMapping(value = CONCRETE, produces = APPLICATION_JSON_UTF8_VALUE, consumes = APPLICATION_JSON_UTF8_VALUE)
     public AdvertisementView update(@PathVariable int id, @RequestBody @Valid AdvertisementUpdateRequest request) {
-        log.info("update advertisement with params {}", request);
+        log.info("update advertisement id {} with params {}", id, request);
 
         Advertisement advertisement = toEntity(request);
         advertisement.setId(id);

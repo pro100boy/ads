@@ -19,12 +19,10 @@ public class AdvertisementUpdate extends BaseDBOperation {
     @Transactional
     public int update(int id, String name, int status, List<Integer> platformIds, String url) {
         try {
-            int update = getJdbcTemplate().update(QUERY, name, status, platformIds.toArray(), url, id);
-            return update;
+            return getJdbcTemplate().update(QUERY, name, status, platformIds.toArray(), url, id);
         } catch (Exception e) {
             log.error("An sql error occurred");
             throw new ServiceException(e);
         }
-
     }
 }

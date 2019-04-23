@@ -6,7 +6,7 @@ import com.loopme.ads.view.AdvertisementView;
 import org.junit.Test;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static com.loopme.ads.AdsTestData.*;
+import static com.loopme.ads.TestData.*;
 import static com.loopme.ads.http.API.Advertisement.CONCRETE;
 import static com.loopme.ads.http.API.Advertisement.PATH;
 import static com.loopme.ads.http.API.ROOT_PATH_V1;
@@ -68,9 +68,10 @@ public class AdvertisementControllerTest extends AbstractControllerTest {
 
         AdvertisementView actual = getGson().fromJson(
                 mvcResult.getResponse().getContentAsString(), AdvertisementView.class);
-        assertTrue(actual.getId()>0);
+        assertTrue(actual.getId() > 0);
 
         AdvertisementView expected = toView(toEntity(request));
+        assert expected != null;
         expected.setId(actual.getId());
 
         assertThat(actual, is(samePropertyValuesAs(expected)));
