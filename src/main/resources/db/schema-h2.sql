@@ -38,5 +38,7 @@ CREATE TABLE CampaignsAds
 (
     campaignID INT NOT NULL,
     adsID      INT NOT NULL,
-    FOREIGN KEY (campaignID) REFERENCES campaigns (id) ON DELETE CASCADE
+    FOREIGN KEY (campaignID) REFERENCES campaigns (id) ON DELETE CASCADE,
+    FOREIGN KEY (campaignID) REFERENCES ads (id) ON DELETE CASCADE,
+    UNIQUE (campaignID, adsID)
 );
