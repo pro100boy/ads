@@ -150,6 +150,6 @@ public class CampaignSelect extends BaseDBOperation {
 
         if (!isEmpty(searchStr) && isNull(status)) return format(HAVING + HAVING_NAME_CLAUSE, searchStr);
         else if (isEmpty(searchStr) && nonNull(status)) return format(HAVING + HAVING_STATUS_CLAUSE, Status.getId(status));
-        else return format(HAVING_CLAUSE, searchStr, status);
+        else return format(HAVING_CLAUSE, searchStr, Status.getId(status));
     }
 }

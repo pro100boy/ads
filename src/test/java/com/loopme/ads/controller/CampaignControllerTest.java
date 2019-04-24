@@ -107,6 +107,7 @@ public class CampaignControllerTest extends AbstractControllerTest {
         MvcResult mvcResult = mockMvc.perform(get(ROOT_PATH_V1 + LIST)
                 .param("search", "a")
                 .param("offset", "1")
+                //.param("status", "planned")
                 .param("limit", "2")
                 .param("order", "desc")
                 .param("sort", "ads"))
